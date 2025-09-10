@@ -1,59 +1,29 @@
-/* ===== Countdown (GMT-locked) =====
-   Launch: Wed, 17 Sept 2025 13:00:00 GMT
-   Change only the numbers below if you move the launch date/time.
-*/
-const launchUTC = Date.UTC(2025, 8, 17, 13, 0, 0); // Note: month is 0-based (8 = September)
+// Countdown Timer Script for Wee Wallace
 
-const elDays    = document.getElementById('days');
-const elHours   = document.getElementById('hours');
-const elMinutes = document.getElementById('minutes');
-const elSeconds = document.getElementById('seconds');
+// Set the launch date and time (GMT/UTC)
+const launchDate = new Date("September 17, 2025 13:00:00 GMT").getTime();
 
-function pad(n) { return String(n).padStart(2, '0'); }
+// Update the countdown every 1 second
+const timer = setInterval(function() {
+  const now = new Date().getTime();
+  const timeLeft = launchDate - now;
 
-function updateCountdown() {
-  const nowUTC = Date.now();              // milliseconds since epoch (UTC)
-  let diff = Math.max(0, launchUTC - nowUTC);
-
-  const s = Math.floor(diff / 1000);
-  const days = Math.floor(s / 86400);
-  const hours = Math.floor((s % 86400) / 3600);
-  const mins = Math.floor((s % 3600) / 60);
-  const secs = s % 60;
-
-  elDays.textContent    = pad(days);
-  elHours.textContent   = pad(hours);
-  elMinutes.textContent = pad(mins);
-  elSeconds.textContent = pad(secs);
-}
-
-updateCountdown();
-const timer = setInterval(() => {
-  updateCountdown();
-  if (Date.now() >= launchUTC) clearInterval(timer);
-}, 1000);
-    // If launch time passed
-    dEl.textContent = "00";
-    hEl.textContent = "00";
-    mEl.textContent = "00";
-    sEl.textContent = "00";
-    const status = document.getElementById("countdown-status");
-    if (status) status.textContent = "We’re live.";
+  if (timeLeft <= 0) {
+    // If launch time is reached or passed
     clearInterval(timer);
+    document.getElementById("countdown").innerHTML = "🚀 Launch is Live!";
     return;
   }
 
-  const sec = Math.floor(diff / 1000);
-  const days = Math.floor(sec / 86400);
-  const hours = Math.floor((sec % 86400) / 3600);
-  const mins = Math.floor((sec % 3600) / 60);
-  const secs = sec % 60;
+  // Time calculations
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-  dEl.textContent = pad(days);
-  hEl.textContent = pad(hours);
-  mEl.textContent = pad(mins);
-  sEl.textContent = pad(secs);
-}
-
-const timer = setInterval(tick, 1000);
-tick(); // initial paint
+  // Update countdown display
+  document.getElementById("days").innerHTML = days;
+  document.getElementById("hours").innerHTML = hours;
+  document.getElementById("minutes").innerHTML = minutes;
+  document.getElementById("seconds").innerHTML = seconds;
+}, 1000);
