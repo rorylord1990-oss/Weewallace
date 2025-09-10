@@ -1,125 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>£WALLACE — Scottish Pre-Launch</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b1722;
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      padding: 20px;
-      background: #0d2236;
-    }
-    h1 {
-      margin: 10px 0;
-    }
-    #ww-countdown {
-      margin: 20px auto;
-      padding: 20px;
-      max-width: 500px;
-      background: #122b40;
-      border-radius: 12px;
-    }
-    #ww-countdown .wwc-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .wwc-box {
-      background: #0d2236;
-      border-radius: 8px;
-      padding: 10px;
-    }
-    .wwc-box span {
-      font-size: 2em;
-      display: block;
-    }
-    .wwc-label {
-      font-size: 0.9em;
-      opacity: 0.8;
-    }
-    @media (max-width: 480px) {
-      #ww-countdown .wwc-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-  <header>
+  <header class="site-top">
     <h1>Scottish Pre-Launch</h1>
   </header>
 
   <main>
-    <img src="assets/poster.png" alt="£WALLACE — The Clans Are Gathering poster" style="max-width:90%; border-radius:12px; margin-top:10px;">
+    <!-- Hero Image -->
+    <section class="hero">
+      <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering poster" class="hero-image">
+    </section>
 
-    <section id="ww-countdown">
+    <!-- Countdown Section -->
+    <section class="countdown">
       <h2>Countdown to Launch</h2>
-      <p>Going live on <strong>Wed, 17 Sept 2025 • 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
-      <div class="wwc-grid">
-        <div class="wwc-box">
-          <span data-count="days">00</span>
-          <div class="wwc-label">DAYS</div>
-        </div>
-        <div class="wwc-box">
-          <span data-count="hours">00</span>
-          <div class="wwc-label">HOURS</div>
-        </div>
-        <div class="wwc-box">
-          <span data-count="minutes">00</span>
-          <div class="wwc-label">MINUTES</div>
-        </div>
-        <div class="wwc-box">
-          <span data-count="seconds">00</span>
-          <div class="wwc-label">SECONDS</div>
-        </div>
+      <p>Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
+
+      <div class="timer">
+        <div><span id="days">00</span><small>DAYS</small></div>
+        <div><span id="hours">00</span><small>HOURS</small></div>
+        <div><span id="minutes">00</span><small>MINUTES</small></div>
+        <div><span id="seconds">00</span><small>SECONDS</small></div>
       </div>
-      <p id="wwc-status">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+
+      <p id="countdown-status">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+      <p id="debug-utc"></p>
     </section>
   </main>
 
   <script>
+    // ---- Launch Date (UTC/GMT) ----
     const LAUNCH_UTC = "2025-09-17T13:00:00Z";
 
-    const get = (k) => document.querySelector(`[data-count="${k}"]`);
-    const pad = (n) => (n < 10 ? "0" + n : "" + n);
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const launch = new Date(LAUNCH_UTC).getTime();
+      let diff = launch - now;
 
-    function tick() {
-      const diff = new Date(LAUNCH_UTC).getTime() - Date.now();
       if (diff <= 0) {
-        ["days","hours","minutes","seconds"].forEach(k => get(k).textContent = "00");
-        document.getElementById("wwc-status").textContent = "🚀 Launch is Live!";
-        clearInterval(t);
+        document.getElementById("countdown-status").textContent = "🚀 We're live!";
+        ["days","hours","minutes","seconds"].forEach(id => document.getElementById(id).textContent = "00");
         return;
       }
-      const total = Math.floor(diff / 1000);
-      const days = Math.floor(total / 86400);
-      const hours = Math.floor((total % 86400) / 3600);
-      const mins = Math.floor((total % 3600) / 60);
-      const secs = total % 60;
 
-      get("days").textContent = pad(days);
-      get("hours").textContent = pad(hours);
-      get("minutes").textContent = pad(mins);
-      get("seconds").textContent = pad(secs);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = days.toString().padStart(2, "0");
+      document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+      document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
     }
 
-    tick();
-    const t = setInterval(tick, 1000);
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
-
 </body>
 </html>
-
-
 
