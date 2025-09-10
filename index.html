@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>£WALLACE — Scottish Pre-Launch</title>
+
+  <!-- Favicon (optional, if you have it) -->
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <meta name="description" content="£WALLACE — Braveheart of Crypto. Scottish pre-launch countdown. Join the clan on Telegram and X." />
+  <meta name="theme-color" content="#0b1722" />
+</head>
+
+<body>
+  <!-- Top badge -->
+  <header class="site-top">
+    <div class="wrap">
+      <span class="flag">🏴</span>
+      <span class="title">Scottish Pre-Launch</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- HERO: full-width poster -->
+    <section class="card hero">
+      <h1 class="visually-hidden">£WALLACE — Pre-Launch Poster</h1>
+      <!-- Put the new poster image in /assets and name it poster2.png -->
+      <img src="assets/poster2.png" alt="£WALLACE — The Clans Are Gathering poster" class="hero-img" />
+    </section>
+
+    <!-- Countdown -->
+    <section class="card countdown">
+      <h2>Countdown to Launch</h2>
+      <p class="sub">Going live on <strong>Wed, 10 Sept 2025 • 22:00 GMT</strong></p>
+
+      <div class="timer" id="timer">
+        <div class="unit"><div class="num" id="days">00</div><div class="label">Days</div></div>
+        <div class="unit"><div class="num" id="hours">00</div><div class="label">Hours</div></div>
+        <div class="unit"><div class="num" id="mins">00</div><div class="label">Minutes</div></div>
+        <div class="unit"><div class="num" id="secs">00</div><div class="label">Seconds</div></div>
+      </div>
+
+      <p class="gmt">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+
+      <div class="cta-row">
+        <a class="btn btn-primary pulse" href="https://t.me/+eaiGjI1IgcU5ZmY0" target="_blank" rel="noopener">📲 Join Telegram</a>
+        <a class="btn btn-dark" href="https://x.com/weewallace1328" target="_blank" rel="noopener">🐦 Follow on X</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="brandline">⚔️ £WALLACE • Braveheart of Crypto ⚔️</div>
+      <small class="disclaimer">
+        Disclaimer: £WALLACE is a meme coin. Not financial advice. Community-driven — do your own research.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Minimal inline script for the countdown -->
+  <script>
+    // Target: Wed, 10 Sept 2025 22:00:00 GMT
+    const targetUTC = Date.UTC(2025, 8, 10, 22, 0, 0); // month is 0-based (8 = Sept)
+    const $days = document.getElementById('days');
+    const $hours = document.getElementById('hours');
+    const $mins = document.getElementById('mins');
+    const $secs = document.getElementById('secs');
+
+    function pad(n){ return String(n).padStart(2, '0'); }
+
+    function tick(){
+      const now = Date.now();
+      let diff = Math.max(0, targetUTC - now);
+
+      const s = Math.floor(diff / 1000);
+      const d = Math.floor(s / 86400);
+      const h = Math.floor((s % 86400) / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const sec = s % 60;
+
+      $days.textContent  = pad(d);
+      $hours.textContent = pad(h);
+      $mins.textContent  = pad(m);
+      $secs.textContent  = pad(sec);
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
