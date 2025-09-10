@@ -33,33 +33,26 @@
       <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering poster" class="hero-img" />
     </section>
 <!-- ===== Countdown to Launch (self-contained) ===== -->
-<section id="countdown" class="card">
-  <h2>Countdown to Launch</h2>
-  <p class="subtitle">
-    Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)
-  </p>
-
-  <div class="countdown" role="timer" aria-live="polite">
-    <div class="countdown-item">
-      <div id="days">00</div>
-      <span>DAYS</span>
-    </div>
-    <div class="countdown-item">
-      <div id="hours">00</div>
-      <span>HOURS</span>
-    </div>
-    <div class="countdown-item">
-      <div id="minutes">00</div>
-      <span>MINUTES</span>
-    </div>
-    <div class="countdown-item">
-      <div id="seconds">00</div>
-      <span>SECONDS</span>
-    </div>
+<div class="countdown-grid" id="countdown">
+  <div class="count-box">
+    <div class="count-value" id="days" data-count="days">00</div>
+    <div class="count-label">DAYS</div>
   </div>
+  <div class="count-box">
+    <div class="count-value" id="hours" data-count="hours">00</div>
+    <div class="count-label">HOURS</div>
+  </div>
+  <div class="count-box">
+    <div class="count-value" id="minutes" data-count="minutes">00</div>
+    <div class="count-label">MINUTES</div>
+  </div>
+  <div class="count-box">
+    <div class="count-value" id="seconds" data-count="seconds">00</div>
+    <div class="count-label">SECONDS</div>
+  </div>
+</div>
 
-  <p class="tiny-note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
-</section>
+<p id="countdown-status" class="tz-note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
 
 
   <!-- Tiny debug line (you can delete later) -->
