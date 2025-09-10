@@ -1,23 +1,37 @@
-/* ===== £WALLACE Countdown =====
-   Launch: Wed 17 Sept 2025 — 13:00 GMT (9 AM EST / 6 AM PST)
-   Edit just the LAUNCH_UTC if you ever change the time.
-================================= */
+/* ===== Countdown (GMT-locked) =====
+   Launch: Wed, 17 Sept 2025 13:00:00 GMT
+   Change only the numbers below if you move the launch date/time.
+*/
+const launchUTC = Date.UTC(2025, 8, 17, 13, 0, 0); // Note: month is 0-based (8 = September)
 
-const LAUNCH_UTC = "2025-09-17T13:00:00Z"; // <-- UTC ISO format
-const launchMs = Date.parse(LAUNCH_UTC);
+const elDays    = document.getElementById('days');
+const elHours   = document.getElementById('hours');
+const elMinutes = document.getElementById('minutes');
+const elSeconds = document.getElementById('seconds');
 
-const dEl = document.getElementById("dd");
-const hEl = document.getElementById("hh");
-const mEl = document.getElementById("mm");
-const sEl = document.getElementById("ss");
+function pad(n) { return String(n).padStart(2, '0'); }
 
-function pad(n){ return n < 10 ? "0" + n : "" + n; }
+function updateCountdown() {
+  const nowUTC = Date.now();              // milliseconds since epoch (UTC)
+  let diff = Math.max(0, launchUTC - nowUTC);
 
-function tick() {
-  const now = Date.now();
-  let diff = launchMs - now;
+  const s = Math.floor(diff / 1000);
+  const days = Math.floor(s / 86400);
+  const hours = Math.floor((s % 86400) / 3600);
+  const mins = Math.floor((s % 3600) / 60);
+  const secs = s % 60;
 
-  if (diff <= 0) {
+  elDays.textContent    = pad(days);
+  elHours.textContent   = pad(hours);
+  elMinutes.textContent = pad(mins);
+  elSeconds.textContent = pad(secs);
+}
+
+updateCountdown();
+const timer = setInterval(() => {
+  updateCountdown();
+  if (Date.now() >= launchUTC) clearInterval(timer);
+}, 1000);
     // If launch time passed
     dEl.textContent = "00";
     hEl.textContent = "00";
