@@ -33,32 +33,109 @@
       <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering poster" class="hero-img" />
     </section>
 <!-- ===== Countdown to Launch (self-contained) ===== -->
-<div class="countdown-grid" id="countdown">
-  <div class="count-box">
-    <div class="count-value" id="days" data-count="days">00</div>
-    <div class="count-label">DAYS</div>
-  </div>
-  <div class="count-box">
-    <div class="count-value" id="hours" data-count="hours">00</div>
-    <div class="count-label">HOURS</div>
-  </div>
-  <div class="count-box">
-    <div class="count-value" id="minutes" data-count="minutes">00</div>
-    <div class="count-label">MINUTES</div>
-  </div>
-  <div class="count-box">
-    <div class="count-value" id="seconds" data-count="seconds">00</div>
-    <div class="count-label">SECONDS</div>
-  </div>
-</div>
+<!-- ====== WEEWALLACE COUNTDOWN (drop-in) ====== -->
+<section class="card" id="ww-countdown" data-launch="2025-09-17T13:00:00Z">
+  <h2>Countdown to Launch</h2>
+  <p class="wwc-sub">Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
 
-<p id="countdown-status" class="tz-note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+  <div class="wwc-grid">
+    <div class="wwc-box">
+      <div class="wwc-num" data-count="days">00</div>
+      <div class="wwc-label">DAYS</div>
+    </div>
+    <div class="wwc-box">
+      <div class="wwc-num" data-count="hours">00</div>
+      <div class="wwc-label">HOURS</div>
+    </div>
+    <div class="wwc-box">
+      <div class="wwc-num" data-count="minutes">00</div>
+      <div class="wwc-label">MINUTES</div>
+    </div>
+    <div class="wwc-box">
+      <div class="wwc-num" data-count="seconds">00</div>
+      <div class="wwc-label">SECONDS</div>
+    </div>
+  </div>
 
+  <p id="wwc-status" class="wwc-note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+</section>
 
-  <!-- Tiny debug line (you can delete later) -->
-  <p id="debug-utc" class="muted" style="opacity:.6;font-size:.9em"></p>
+<style>
+  /* ===== Scoped styles: only affect #ww-countdown ===== */
+  #ww-countdown { margin-top: 18px; }
+  #ww-countdown .wwc-sub { margin: 6px 0 18px; opacity: .9; }
+  #ww-countdown .wwc-note { margin-top: 16px; opacity: .9; }
 
-  <script>
+  #ww-countdown .wwc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(72px,1fr));
+    gap: 14px;
+  }
+  #ww-countdown .wwc-box {
+    text-align: center;
+    padding: 18px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(2px);
+  }
+  #ww-countdown .wwc-num {
+    font-weight: 800;
+    font-size: clamp(28px, 7vw, 44px);
+    line-height: 1;
+    letter-spacing: .5px;
+  }
+  #ww-countdown .wwc-label {
+    margin-top: 6px;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+  /* Mobile: 2 columns so it never stacks vertically like in your screenshot */
+  @media (max-width: 480px){
+    #ww-countdown .wwc-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  }
+</style>
+
+<script>
+  // ===== Scoped countdown logic =====
+  (function(){
+    const root = document.getElementById('ww-countdown');
+    if(!root) return;
+
+    const LAUNCH_ISO = root.getAttribute('data-launch');  // e.g., 2025-09-17T13:00:00Z
+    const launch = new Date(LAUNCH_ISO).getTime();
+
+    const qs = k => root.querySelector(`[data-count="${k}"]`);
+    const els = {
+      days: qs('days'),
+      hours: qs('hours'),
+      minutes: qs('minutes'),
+      seconds: qs('seconds'),
+      status: document.getElementById('wwc-status')
+    };
+    const set = (k,v)=>{ if(els[k]) els[k].textContent = String(v).padStart(2,'0'); };
+    const setAll = v => ['days','hours','minutes','seconds'].forEach(k => set(k,v));
+
+    function tick(){
+      const now = Date.now();
+      let diff = launch - now;
+      if(diff <= 0){
+        setAll(0);
+        if(els.status) els.status.textContent = '🚀 Launch is Live!';
+        clearInterval(t);
+        return;
+      }
+      const d = Math.floor(diff/86400000); diff %= 86400000;
+      const h = Math.floor(diff/3600000);  diff %= 3600000;
+      const m = Math.floor(diff/60000);    diff %= 60000;
+      const s = Math.floor(diff/1000);
+      set('days', d); set('hours', h); set('minutes', m); set('seconds', s);
+    }
+    tick();
+    const t = setInterval(tick, 1000);
+  })();
+</script>
+<!-- ====== /WEEWALLACE COUNTDOWN ====== -->
     // ---- Unambiguous UTC launch time ----
     const LAUNCH_UTC = "2025-09-17T13:00:00Z";
 
