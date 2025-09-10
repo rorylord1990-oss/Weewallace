@@ -169,3 +169,43 @@ body{
   font-size: 1.1em;      /* slightly larger text for readability */
   font-weight: 500;      /* make it stand out */
 }
+/* ===== Countdown ===== */
+.countdown {
+  display: flex;                 /* put tiles in a horizontal row */
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.25rem;                  /* space between tiles */
+  margin-top: 1rem;
+  flex-wrap: nowrap;             /* keep in one line on most phones */
+}
+
+.countdown-item {
+  background: rgba(8, 30, 40, 0.55);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 16px 18px;
+  min-width: 86px;               /* forces tile width */
+  text-align: center;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.3) inset;
+}
+
+.countdown-item > div {          /* the number */
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #b8f3ff;                /* matches your glow vibe */
+}
+
+.countdown-item span {           /* the label */
+  display: block;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: #bcd1d6;
+}
+
+/* If a screen is extremely narrow, allow wrapping in two rows */
+@media (max-width: 360px) {
+  .countdown { flex-wrap: wrap; }
+}
