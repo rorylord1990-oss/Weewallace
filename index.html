@@ -1,218 +1,123 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wee Wallace Test — Scottish Pre-Launch</title>
-
-  <!-- Favicon (optional, if you have it) -->
-  <link rel="icon" href="assets/favicon.png" type="image/png" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <meta name="description" content="£WALLACE — Braveheart of Crypto. Scottish pre-launch countdown. Join the clan on Telegram and X." />
-  <meta name="theme-color" content="#0b1722" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>£WALLACE — Scottish Pre-Launch</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1722;
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      padding: 20px;
+      background: #0d2236;
+    }
+    h1 {
+      margin: 10px 0;
+    }
+    #ww-countdown {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 500px;
+      background: #122b40;
+      border-radius: 12px;
+    }
+    #ww-countdown .wwc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .wwc-box {
+      background: #0d2236;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .wwc-box span {
+      font-size: 2em;
+      display: block;
+    }
+    .wwc-label {
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+    @media (max-width: 480px) {
+      #ww-countdown .wwc-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
 </head>
-
 <body>
-  <!-- Top badge -->
-  <header class="site-top">
-    <div class="wrap">
-      <span class="flag">🏴</span>
-      <span class="title">Scottish Pre-Launch</span>
-    </div>
+
+  <header>
+    <h1>Scottish Pre-Launch</h1>
   </header>
 
-  <main class="wrap">
+  <main>
+    <img src="assets/poster.png" alt="£WALLACE — The Clans Are Gathering poster" style="max-width:90%; border-radius:12px; margin-top:10px;">
 
-    <!-- HERO: full-width poster -->
-    <section class="card hero">
-      <h1 class="visually-hidden">£WALLACE — Pre-Launch Poster</h1>
-      <!-- Put the new poster image in /assets and name it poster2.png -->
-      <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering poster" class="hero-img" />
+    <section id="ww-countdown">
+      <h2>Countdown to Launch</h2>
+      <p>Going live on <strong>Wed, 17 Sept 2025 • 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
+      <div class="wwc-grid">
+        <div class="wwc-box">
+          <span data-count="days">00</span>
+          <div class="wwc-label">DAYS</div>
+        </div>
+        <div class="wwc-box">
+          <span data-count="hours">00</span>
+          <div class="wwc-label">HOURS</div>
+        </div>
+        <div class="wwc-box">
+          <span data-count="minutes">00</span>
+          <div class="wwc-label">MINUTES</div>
+        </div>
+        <div class="wwc-box">
+          <span data-count="seconds">00</span>
+          <div class="wwc-label">SECONDS</div>
+        </div>
+      </div>
+      <p id="wwc-status">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
     </section>
-<!-- ===== Countdown to Launch (self-contained) ===== -->
-<!-- ====== WEEWALLACE COUNTDOWN (drop-in) ====== -->
-<section class="card" id="ww-countdown" data-launch="2025-09-17T13:00:00Z">
-  <h2>Countdown to Launch</h2>
-  <p class="wwc-sub">Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
+  </main>
 
-  <div class="wwc-grid">
-    <div class="wwc-box">
-      <div class="wwc-num" data-count="days">00</div>
-      <div class="wwc-label">DAYS</div>
-    </div>
-    <div class="wwc-box">
-      <div class="wwc-num" data-count="hours">00</div>
-      <div class="wwc-label">HOURS</div>
-    </div>
-    <div class="wwc-box">
-      <div class="wwc-num" data-count="minutes">00</div>
-      <div class="wwc-label">MINUTES</div>
-    </div>
-    <div class="wwc-box">
-      <div class="wwc-num" data-count="seconds">00</div>
-      <div class="wwc-label">SECONDS</div>
-    </div>
-  </div>
+  <script>
+    const LAUNCH_UTC = "2025-09-17T13:00:00Z";
 
-  <p id="wwc-status" class="wwc-note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
-</section>
+    const get = (k) => document.querySelector(`[data-count="${k}"]`);
+    const pad = (n) => (n < 10 ? "0" + n : "" + n);
 
-<style>
-  /* ===== Scoped styles: only affect #ww-countdown ===== */
-  #ww-countdown { margin-top: 18px; }
-  #ww-countdown .wwc-sub { margin: 6px 0 18px; opacity: .9; }
-  #ww-countdown .wwc-note { margin-top: 16px; opacity: .9; }
-
-  #ww-countdown .wwc-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(72px,1fr));
-    gap: 14px;
-  }
-  #ww-countdown .wwc-box {
-    text-align: center;
-    padding: 18px 12px;
-    border-radius: 14px;
-    background: rgba(255,255,255,.03);
-    border: 1px solid rgba(255,255,255,.08);
-    backdrop-filter: blur(2px);
-  }
-  #ww-countdown .wwc-num {
-    font-weight: 800;
-    font-size: clamp(28px, 7vw, 44px);
-    line-height: 1;
-    letter-spacing: .5px;
-  }
-  #ww-countdown .wwc-label {
-    margin-top: 6px;
-    font-size: 12px;
-    letter-spacing: 2px;
-  }
-  /* Mobile: 2 columns so it never stacks vertically like in your screenshot */
-  @media (max-width: 480px){
-    #ww-countdown .wwc-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
-  }
-</style>
-
-<script>
-  // ===== Scoped countdown logic =====
- <script> (function(){
-    const root = document.getElementById('ww-countdown');
-    if(!root) return;
-
-    const LAUNCH_ISO = root.getAttribute('data-launch');  // e.g., 2025-09-17T13:00:00Z
-    const launch = new Date(LAUNCH_ISO).getTime();
-
-    const qs = k => root.querySelector(`[data-count="${k}"]`);
-    const els = {
-      days: qs('days'),
-      hours: qs('hours'),
-      minutes: qs('minutes'),
-      seconds: qs('seconds'),
-      status: document.getElementById('wwc-status')
-    };
-    const set = (k,v)=>{ if(els[k]) els[k].textContent = String(v).padStart(2,'0'); };
-    const setAll = v => ['days','hours','minutes','seconds'].forEach(k => set(k,v));
-
-    function tick(){
-      const now = Date.now();
-      let diff = launch - now;
-      if(diff <= 0){
-        setAll(0);
-        if(els.status) els.status.textContent = '🚀 Launch is Live!';
+    function tick() {
+      const diff = new Date(LAUNCH_UTC).getTime() - Date.now();
+      if (diff <= 0) {
+        ["days","hours","minutes","seconds"].forEach(k => get(k).textContent = "00");
+        document.getElementById("wwc-status").textContent = "🚀 Launch is Live!";
         clearInterval(t);
         return;
       }
-      const d = Math.floor(diff/86400000); diff %= 86400000;
-      const h = Math.floor(diff/3600000);  diff %= 3600000;
-      const m = Math.floor(diff/60000);    diff %= 60000;
-      const s = Math.floor(diff/1000);
-      set('days', d); set('hours', h); set('minutes', m); set('seconds', s);
-    }
-    tick();
-    const t = setInterval(tick, 1000);
-  })();
-</script>
-<!-- ====== /WEEWALLACE COUNTDOWN ====== -->
-    // ---- Unambiguous UTC launch time ----
-    const LAUNCH_UTC = "2025-09-17T13:00:00Z";
-
-    // helpers
-    const $ = (sel) => document.querySelector(sel);
-    const get = (k) => document.querySelector(`[data-timer="${k}"]`);
-    const pad = (n) => (n < 10 ? "0" + n : "" + n);
-
-    // show UTC clock for sanity (remove if you like)
-    const dbg = $("#debug-utc");
-    function showDebug() {
-      const now = new Date();
-      dbg.textContent = "Now (UTC): " + now.toUTCString() +
-        " • Launch (UTC): " + new Date(LAUNCH_UTC).toUTCString();
-    }
-
-    const launchMs = Date.parse(LAUNCH_UTC);
-
-    function tick() {
-      const nowMs = Date.now();
-      let diff = launchMs - nowMs;
-
-      if (diff <= 0) {
-        ["days","hours","minutes","seconds"].forEach(k => get(k).textContent = "00");
-        const s = $("#countdown-status");
-        if (s) s.textContent = "We’re live.";
-        clearInterval(timer);
-        return;
-      }
-
-      const totalSec = Math.floor(diff / 1000);
-      const days = Math.floor(totalSec / 86400);
-      const hours = Math.floor((totalSec % 86400) / 3600);
-      const minutes = Math.floor((totalSec % 3600) / 60);
-      const seconds = totalSec % 60;
+      const total = Math.floor(diff / 1000);
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      const mins = Math.floor((total % 3600) / 60);
+      const secs = total % 60;
 
       get("days").textContent = pad(days);
       get("hours").textContent = pad(hours);
-      get("minutes").textContent = pad(minutes);
-      get("seconds").textContent = pad(seconds);
-
-      showDebug();
+      get("minutes").textContent = pad(mins);
+      get("seconds").textContent = pad(secs);
     }
 
-    const timer = setInterval(tick, 1000);
     tick();
+    const t = setInterval(tick, 1000);
   </script>
-</section>
-<!-- ===== /Countdown ===== -->
-  <script>
-    // Target: Wed, 17 Sept 2025 · 13:00 GMT (9 AM EST / 6 AM PST)
-    const targetUTC = Date.UTC(2025, 8, 10, 22, 0, 0); // month is 0-based (8 = Sept)
-    const $days = document.getElementById('days');
-    const $hours = document.getElementById('hours');
-    const $mins = document.getElementById('mins');
-    const $secs = document.getElementById('secs');
 
-    function pad(n){ return String(n).padStart(2, '0'); }
-
-    function tick(){
-      const now = Date.now();
-      let diff = Math.max(0, targetUTC - now);
-
-      const s = Math.floor(diff / 1000);
-      const d = Math.floor(s / 86400);
-      const h = Math.floor((s % 86400) / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const sec = s % 60;
-
-      $days.textContent  = pad(d);
-      $hours.textContent = pad(h);
-      $mins.textContent  = pad(m);
-      $secs.textContent  = pad(sec);
-    }
-    tick();
-    setInterval(tick, 1000);
-  </script>
 </body>
 </html>
 
