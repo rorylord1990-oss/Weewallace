@@ -189,4 +189,15 @@ body{
 @media (max-width: 680px){
   .timer{ grid-template-columns: repeat(2, 1fr); }
   .cta-row{ justify-content: center; }
+}/* Countdown section cleanup */
+.countdown {
+  margin-top: 20px;      /* add space above countdown */
+  text-align: center;    /* keep everything centered */
+}
+
+.launch-time {
+  display: block;        /* force onto its own line */
+  margin-bottom: 15px;   /* spacing between text and timer */
+  font-size: 1.1em;      /* slightly larger text for readability */
+  font-weight: 500;      /* make it stand out */
 }
