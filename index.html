@@ -3,105 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scottish Pre-Launch — £WALLACE</title>
+  <title>£WALLACE — Scottish Pre-Launch</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #0b1722;
+      color: #fff;
       margin: 0;
       padding: 0;
-      background: #0b1722;
-      color: white;
       text-align: center;
     }
+
     header {
       padding: 1rem;
+      background: #111c28;
       font-size: 1.5rem;
       font-weight: bold;
     }
-    .hero img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      border-radius: 8px;
-    }
-    .countdown {
-      background: #142433;
-      margin: 1rem auto;
-      padding: 1rem;
-      border-radius: 8px;
-      width: 90%;
+
+    .hero {
       max-width: 600px;
+      margin: 1rem auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
     }
-    .countdown h2 {
-      margin-bottom: 0.5rem;
+
+    .hero img {
+      width: 100%;
+      display: block;
     }
-    .timer {
-      display: flex;
-      justify-content: space-around;
+
+    .card {
+      background: #132030;
+      margin: 1.5rem auto;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 700px;
+      box-shadow: 0 0 25px rgba(0, 234, 255, 0.3);
+    }
+
+    .card-title {
       font-size: 1.5rem;
-      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: #00eaff;
     }
-    .timer div {
-      text-align: center;
-    }
-    .status {
-      margin-top: 1rem;
+
+    .launch-info {
       font-size: 1rem;
+      margin-bottom: 1.5rem;
+      color: #ccc;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .time-box {
+      background: #0b1722;
+      color: #00eaff;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      width: 100px;
+      box-shadow: 0 0 15px rgba(0, 234, 255, 0.6);
+      animation: pulse 2s infinite;
+    }
+
+    .time-box span {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .time-box small {
+      font-size: 0.8rem;
+      color: #ccc;
+      letter-spacing: 1px;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      color: #bbb;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 5px rgba(0, 234, 255, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(0, 234, 255, 1); }
+      100% { box-shadow: 0 0 5px rgba(0, 234, 255, 0.4); }
     }
   </style>
 </head>
 <body>
+
   <header>Scottish Pre-Launch</header>
 
-  <section class="hero">
-    <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering poster">
-  </section>
+  <div class="hero">
+    <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering">
+  </div>
 
-  <section class="countdown">
-    <h2>Countdown to Launch</h2>
-    <p>Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
-    <div class="timer">
-      <div><span data-timer="days">00</span><br>DAYS</div>
-      <div><span data-timer="hours">00</span><br>HOURS</div>
-      <div><span data-timer="minutes">00</span><br>MINUTES</div>
-      <div><span data-timer="seconds">00</span><br>SECONDS</div>
+  <section class="card">
+    <h2 class="card-title">Countdown to Launch</h2>
+    <p class="launch-info">
+      Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)
+    </p>
+    
+    <div class="countdown">
+      <div class="time-box"><span id="days">00</span><small>DAYS</small></div>
+      <div class="time-box"><span id="hours">00</span><small>HOURS</small></div>
+      <div class="time-box"><span id="minutes">00</span><small>MINUTES</small></div>
+      <div class="time-box"><span id="seconds">00</span><small>SECONDS</small></div>
     </div>
-    <div id="countdown-status" class="status">⏰ Timer is locked to GMT so everyone sees the same countdown.</div>
+
+    <p class="note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
   </section>
 
   <script>
     const LAUNCH_UTC = "2025-09-17T13:00:00Z"; // Launch time in UTC
 
-    const set = (id, val) => document.querySelector(`[data-timer="${id}"]`).textContent = val;
-
-    function pad(n) { return n < 10 ? "0" + n : n; }
-
-    function tick() {
+    function updateCountdown() {
       const now = new Date().getTime();
       const launch = new Date(LAUNCH_UTC).getTime();
-      let diff = launch - now;
+      const diff = launch - now;
 
       if (diff <= 0) {
-        ["days", "hours", "minutes", "seconds"].forEach(id => set(id, "00"));
-        document.getElementById("countdown-status").textContent = "🚀 We’re live!";
-        clearInterval(timer);
+        document.querySelector(".countdown").innerHTML = "🚀 We’re Live!";
         return;
       }
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      set("days", pad(days));
-      set("hours", pad(hours));
-      set("minutes", pad(minutes));
-      set("seconds", pad(seconds));
+      document.getElementById("days").textContent = days.toString().padStart(2, "0");
+      document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+      document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
     }
 
-    tick();
-    const timer = setInterval(tick, 1000);
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
+
 </body>
 </html>
