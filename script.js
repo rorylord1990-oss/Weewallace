@@ -1,29 +1,44 @@
-// Countdown Timer Script for Wee Wallace
+// script.js — WeeWallace countdown
+document.addEventListener("DOMContentLoaded", () => {
+  // UTC launch moment (13:00 GMT) – change here only if needed
+  const LAUNCH_ISO = "2025-09-17T13:00:00Z"; // Wed, 17 Sept 2025 · 13:00 GMT
 
-// Set the launch date and time (GMT/UTC)
-const launchDate = new Date("September 17, 2025 13:00:00 GMT").getTime();
+  const launch = new Date(LAUNCH_ISO).getTime();
 
-// Update the countdown every 1 second
-const timer = setInterval(function() {
-  const now = new Date().getTime();
-  const timeLeft = launchDate - now;
+  const getEl = sel => document.getElementById(sel) || document.querySelector(`[data-count="${sel}"]`);
+  const els = {
+    days:    getEl("days"),
+    hours:   getEl("hours"),
+    minutes: getEl("minutes"),
+    seconds: getEl("seconds"),
+    status:  document.getElementById("countdown-status")
+  };
 
-  if (timeLeft <= 0) {
-    // If launch time is reached or passed
-    clearInterval(timer);
-    document.getElementById("countdown").innerHTML = "🚀 Launch is Live!";
-    return;
+  const set = (k, v) => { if (els[k]) els[k].textContent = String(v).padStart(2, "0"); };
+  const setAll = v => ["days","hours","minutes","seconds"].forEach(k => set(k, v));
+
+  function tick() {
+    const now = Date.now();
+    let diff = launch - now;
+
+    if (diff <= 0) {
+      setAll(0);
+      if (els.status) els.status.textContent = "🚀 Launch is Live!";
+      clearInterval(timer);
+      return;
+    }
+
+    const d = Math.floor(diff / 86400000); diff %= 86400000;
+    const h = Math.floor(diff / 3600000);  diff %= 3600000;
+    const m = Math.floor(diff / 60000);    diff %= 60000;
+    const s = Math.floor(diff / 1000);
+
+    set("days", d);
+    set("hours", h);
+    set("minutes", m);
+    set("seconds", s);
   }
 
-  // Time calculations
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-  // Update countdown display
-  document.getElementById("days").innerHTML = days;
-  document.getElementById("hours").innerHTML = hours;
-  document.getElementById("minutes").innerHTML = minutes;
-  document.getElementById("seconds").innerHTML = seconds;
-}, 1000);
+  tick(); // render immediately
+  const timer = setInterval(tick, 1000);
+});
