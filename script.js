@@ -1,5 +1,6 @@
 // ===== Countdown (locked to GMT) =====
-const target = new Date("Sep 10, 2025 22:00:00 GMT").getTime();
+const target = // New launch date: Wed 17 Sept 2025, 13:00 GMT (9 AM EST, 6 AM PST)
+const launchDate = new Date("September 17, 2025 13:00:00 GMT");
 const els = {
   d: document.getElementById("days"),
   h: document.getElementById("hours"),
