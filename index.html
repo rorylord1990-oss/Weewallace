@@ -32,39 +32,89 @@
       <!-- Put the new poster image in /assets and name it poster2.png -->
       <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering poster" class="hero-img" />
     </section>
+<!-- ===== Countdown to Launch (self-contained) ===== -->
+<section id="countdown" class="card">
+  <h2>Countdown to Launch</h2>
+  <p id="countdown-status">
+    Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong>
+    (9 AM EST / 6 AM PST)
+  </p>
 
-    <!-- Countdown -->
-    <section class="card countdown">
-      <h2>Countdown to Launch</h2>
-      <p class="sub"><p>Going live on Wed, 17 Sept 2025 · 13:00 GMT (9 AM EST / 6 AM PST)</p>>
-
-      <div class="timer" id="timer">
-        <div class="unit"><div class="num" id="days">00</div><div class="label">Days</div></div>
-        <div class="unit"><div class="num" id="hours">00</div><div class="label">Hours</div></div>
-        <div class="unit"><div class="num" id="mins">00</div><div class="label">Minutes</div></div>
-        <div class="unit"><div class="num" id="secs">00</div><div class="label">Seconds</div></div>
-      </div>
-
-      <p class="gmt">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
-
-      <div class="cta-row">
-        <a class="btn btn-primary pulse" href="https://t.me/+eaiGjI1IgcU5ZmY0" target="_blank" rel="noopener">📲 Join Telegram</a>
-        <a class="btn btn-dark" href="https://x.com/weewallace1328" target="_blank" rel="noopener">🐦 Follow on X</a>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site-foot">
-    <div class="wrap">
-      <div class="brandline">⚔️ £WALLACE • Braveheart of Crypto ⚔️</div>
-      <small class="disclaimer">
-        Disclaimer: £WALLACE is a meme coin. Not financial advice. Community-driven — do your own research.
-      </small>
+  <!-- Timer grid -->
+  <div class="timer-grid">
+    <div class="timer-box">
+      <div class="num" data-timer="days">00</div>
+      <div class="label">DAYS</div>
     </div>
-  </footer>
+    <div class="timer-box">
+      <div class="num" data-timer="hours">00</div>
+      <div class="label">HOURS</div>
+    </div>
+    <div class="timer-box">
+      <div class="num" data-timer="minutes">00</div>
+      <div class="label">MINUTES</div>
+    </div>
+    <div class="timer-box">
+      <div class="num" data-timer="seconds">00</div>
+      <div class="label">SECONDS</div>
+    </div>
+  </div>
 
-  <!-- Minimal inline script for the countdown -->
+  <p class="muted">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+
+  <!-- Tiny debug line (you can delete later) -->
+  <p id="debug-utc" class="muted" style="opacity:.6;font-size:.9em"></p>
+
+  <script>
+    // ---- Unambiguous UTC launch time ----
+    const LAUNCH_UTC = "2025-09-17T13:00:00Z";
+
+    // helpers
+    const $ = (sel) => document.querySelector(sel);
+    const get = (k) => document.querySelector(`[data-timer="${k}"]`);
+    const pad = (n) => (n < 10 ? "0" + n : "" + n);
+
+    // show UTC clock for sanity (remove if you like)
+    const dbg = $("#debug-utc");
+    function showDebug() {
+      const now = new Date();
+      dbg.textContent = "Now (UTC): " + now.toUTCString() +
+        " • Launch (UTC): " + new Date(LAUNCH_UTC).toUTCString();
+    }
+
+    const launchMs = Date.parse(LAUNCH_UTC);
+
+    function tick() {
+      const nowMs = Date.now();
+      let diff = launchMs - nowMs;
+
+      if (diff <= 0) {
+        ["days","hours","minutes","seconds"].forEach(k => get(k).textContent = "00");
+        const s = $("#countdown-status");
+        if (s) s.textContent = "We’re live.";
+        clearInterval(timer);
+        return;
+      }
+
+      const totalSec = Math.floor(diff / 1000);
+      const days = Math.floor(totalSec / 86400);
+      const hours = Math.floor((totalSec % 86400) / 3600);
+      const minutes = Math.floor((totalSec % 3600) / 60);
+      const seconds = totalSec % 60;
+
+      get("days").textContent = pad(days);
+      get("hours").textContent = pad(hours);
+      get("minutes").textContent = pad(minutes);
+      get("seconds").textContent = pad(seconds);
+
+      showDebug();
+    }
+
+    const timer = setInterval(tick, 1000);
+    tick();
+  </script>
+</section>
+<!-- ===== /Countdown ===== -->
   <script>
     // Target: Wed, 17 Sept 2025 · 13:00 GMT (9 AM EST / 6 AM PST)
     const targetUTC = Date.UTC(2025, 8, 10, 22, 0, 0); // month is 0-based (8 = Sept)
