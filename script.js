@@ -41,4 +41,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tick(); // render immediately
   const timer = setInterval(tick, 1000);
-});
+});/* Countdown layout */
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(70px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.count-box {
+  text-align: center;
+  padding: 18px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(2px);
+}
+
+.count-value {
+  font-weight: 800;
+  font-size: clamp(28px, 7vw, 44px);
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.count-label {
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.85;
+}
+
+/* Small screens: 2 columns */
+@media (max-width: 480px) {
+  .countdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
