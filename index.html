@@ -1,155 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>£WALLACE — Scottish Pre-Launch</title>
+  <meta name="theme-color" content="#0b1722" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b1722;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      text-align: center;
+    :root{
+      --bg:#0b1722; --panel:#111c28; --panel2:#132030;
+      --ink:#eaf6ff; --muted:#a4bfd4;
+      --neon:#00eaff; --neon2:#00b4ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--ink); background:var(--bg);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      text-align:center;
     }
 
-    header {
-      padding: 1rem;
-      background: #111c28;
-      font-size: 1.5rem;
-      font-weight: bold;
+    header{
+      position:sticky; top:0; z-index:5;
+      display:flex; align-items:center; justify-content:center; gap:.6rem;
+      padding:12px 14px; background:linear-gradient(180deg,#0c1a27f0,#0c1a2700);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(8px);
+      font-weight:800; letter-spacing:.3px;
+    }
+    .flag{filter:drop-shadow(0 0 8px rgba(0,234,255,.35)); font-size:1.2rem}
+
+    .wrap{max-width:900px; margin:0 auto; padding:14px;}
+
+    /* HERO image */
+    .hero{
+      margin:14px auto 10px; border-radius:14px; overflow:hidden;
+      box-shadow:0 24px 60px rgba(0,0,0,.45), 0 0 22px rgba(0,234,255,.15);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .hero img{display:block; width:100%; height:auto}
+
+    .card{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:1px solid #173043; border-radius:16px; padding:18px; margin:16px auto;
+      box-shadow:0 16px 40px rgba(0,0,0,.45);
+    }
+    h1{margin:.2rem 0 0.6rem; font-size:1.9rem; letter-spacing:.2px}
+    .sub{color:var(--muted); margin:0 0 10px}
+
+    /* --- ALIVE COUNTDOWN --- */
+    .countdown{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+      margin:10px 0 6px;
+    }
+    @media (max-width:560px){ .countdown{grid-template-columns:repeat(2,1fr);} }
+
+    .unit{
+      position:relative; background:#0d1722; border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:14px 10px; overflow:hidden;
+      box-shadow:0 0 20px rgba(0,234,255,.18), inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .num{
+      font-size:2.1rem; font-weight:900; color:var(--neon);
+      text-shadow:0 0 10px rgba(0,234,255,.6), 0 0 26px rgba(0,180,255,.35);
+      display:block; transform-origin:bottom; transition:transform .15s ease;
+    }
+    .label{font-size:.8rem; color:var(--muted); letter-spacing:1.6px; text-transform:uppercase}
+    .unit.tick .num{ animation: tick .2s ease }
+    @keyframes tick{ 0%{transform:scale(1)} 50%{transform:scale(1.07)} 100%{transform:scale(1)} }
+
+    /* Buttons (alive pulse) */
+    .cta-row{
+      display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:.6rem;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 18px; border-radius: 12px; text-decoration:none;
+      font-weight: 800; letter-spacing:.3px; color:#001017;
+      background: linear-gradient(135deg, var(--neon) 0%, var(--neon2) 100%);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 8px 24px rgba(0,180,255,.35);
+      animation: pulse 2.1s ease-in-out infinite;
+      transition:transform .12s ease, filter .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: saturate(1.1); }
+    .btn:active{ transform: translateY(0); }
+    @keyframes pulse{
+      0% { box-shadow: 0 0 6px rgba(0,180,255,.35); }
+      50% { box-shadow: 0 0 28px rgba(0,180,255,.95); }
+      100%{ box-shadow: 0 0 6px rgba(0,180,255,.35); }
     }
 
-    .hero {
-      max-width: 600px;
-      margin: 1rem auto;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-    }
-
-    .hero img {
-      width: 100%;
-      display: block;
-    }
-
-    .card {
-      background: #132030;
-      margin: 1.5rem auto;
-      padding: 1.5rem;
-      border-radius: 12px;
-      max-width: 700px;
-      box-shadow: 0 0 25px rgba(0, 234, 255, 0.3);
-    }
-
-    .card-title {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      color: #00eaff;
-    }
-
-    .launch-info {
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      color: #ccc;
-    }
-
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1rem 0;
-      flex-wrap: wrap;
-    }
-
-    .time-box {
-      background: #0b1722;
-      color: #00eaff;
-      padding: 1rem;
-      border-radius: 10px;
-      text-align: center;
-      width: 100px;
-      box-shadow: 0 0 15px rgba(0, 234, 255, 0.6);
-      animation: pulse 2s infinite;
-    }
-
-    .time-box span {
-      font-size: 2rem;
-      font-weight: bold;
-      display: block;
-    }
-
-    .time-box small {
-      font-size: 0.8rem;
-      color: #ccc;
-      letter-spacing: 1px;
-    }
-
-    .note {
-      font-size: 0.9rem;
-      margin-top: 1rem;
-      color: #bbb;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 5px rgba(0, 234, 255, 0.4); }
-      50% { box-shadow: 0 0 25px rgba(0, 234, 255, 1); }
-      100% { box-shadow: 0 0 5px rgba(0, 234, 255, 0.4); }
-    }
+    .note{color:var(--muted); font-size:.92rem; margin-top:8px}
   </style>
 </head>
 <body>
+  <header>£WALLACE Pre-Launch <span class="flag">🏴</span></header>
 
-  <header>Scottish Pre-Launch</header>
-
-  <div class="hero">
-    <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering">
-  </div>
-
-  <section class="card">
-    <h2 class="card-title">Countdown to Launch</h2>
-    <p class="launch-info">
-      Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)
-    </p>
-    
-    <div class="countdown">
-      <div class="time-box"><span id="days">00</span><small>DAYS</small></div>
-      <div class="time-box"><span id="hours">00</span><small>HOURS</small></div>
-      <div class="time-box"><span id="minutes">00</span><small>MINUTES</small></div>
-      <div class="time-box"><span id="seconds">00</span><small>SECONDS</small></div>
+  <div class="wrap">
+    <!-- HERO IMAGE (you can remove this block if you don’t like it) -->
+    <div class="hero">
+      <img src="wallace-hero.jpg" alt="£WALLACE — The Clans Are Gathering">
     </div>
 
-    <p class="note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
-  </section>
+    <!-- COUNTDOWN CARD -->
+    <section class="card">
+      <h1>Countdown to Launch</h1>
+      <p class="sub">Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)</p>
+
+      <div class="countdown" id="countdown">
+        <div class="unit" data-k="days"><span id="days" class="num">00</span><div class="label">Days</div></div>
+        <div class="unit" data-k="hours"><span id="hours" class="num">00</span><div class="label">Hours</div></div>
+        <div class="unit" data-k="minutes"><span id="minutes" class="num">00</span><div class="label">Minutes</div></div>
+        <div class="unit" data-k="seconds"><span id="seconds" class="num">00</span><div class="label">Seconds</div></div>
+      </div>
+
+      <p class="note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+    </section>
+
+    <!-- ALIVE BUTTONS -->
+    <section class="card">
+      <h1>Join the Clan</h1>
+      <div class="cta-row">
+        <a class="btn" href="https://t.me/+eaiGjI1IgcU5ZmY0" target="_blank" rel="noopener">Join Telegram</a>
+        <a class="btn" href="https://x.com/weewallace1328" target="_blank" rel="noopener">Follow on X</a>
+      </div>
+    </section>
+  </div>
 
   <script>
-    const LAUNCH_UTC = "2025-09-17T13:00:00Z"; // Launch time in UTC
+    // Launch time in UTC for consistency
+    const LAUNCH_UTC = "2025-09-17T13:00:00Z";
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const launch = new Date(LAUNCH_UTC).getTime();
-      const diff = launch - now;
+    let prev = {d:null,h:null,m:null,s:null};
 
-      if (diff <= 0) {
-        document.querySelector(".countdown").innerHTML = "🚀 We’re Live!";
+    function setNum(id, value){
+      const el = document.getElementById(id);
+      if(!el) return;
+      const v = value.toString().padStart(2,"0");
+      if(el.textContent !== v){
+        el.textContent = v;
+        // tick animation on parent .unit
+        const unit = el.closest(".unit");
+        if(unit){
+          unit.classList.remove("tick");
+          // force reflow to restart animation
+          void unit.offsetWidth;
+          unit.classList.add("tick");
+        }
+      }
+    }
+
+    function updateCountdown(){
+      const now = Date.now();
+      const goal = new Date(LAUNCH_UTC).getTime();
+      const diff = goal - now;
+
+      if(diff <= 0){
+        document.getElementById("countdown").innerHTML = "🚀 We’re Live!";
         return;
       }
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+      const s = Math.floor((diff % (1000*60)) / 1000);
 
-      document.getElementById("days").textContent = days.toString().padStart(2, "0");
-      document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
-      document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
-      document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
+      setNum("days", d);
+      setNum("hours", h);
+      setNum("minutes", m);
+      setNum("seconds", s);
     }
 
-    setInterval(updateCountdown, 1000);
     updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
-
 </body>
 </html>
