@@ -1,41 +1,45 @@
-// ===== Countdown (locked to GMT) =====
-const target = // New launch date: Wed 17 Sept 2025, 13:00 GMT (9 AM EST, 6 AM PST)
-const launchDate = new Date("September 17, 2025 13:00:00 GMT");
-const els = {
-  d: document.getElementById("days"),
-  h: document.getElementById("hours"),
-  m: document.getElementById("minutes"),
-  s: document.getElementById("seconds"),
-};
-const tick = () => {
-  const now = Date.now();
-  const dist = target - now;
+/* ===== £WALLACE Countdown =====
+   Launch: Wed 17 Sept 2025 — 13:00 GMT (9 AM EST / 6 AM PST)
+   Edit just the LAUNCH_UTC if you ever change the time.
+================================= */
 
-  if (dist <= 0) {
+const LAUNCH_UTC = "2025-09-17T13:00:00Z"; // <-- UTC ISO format
+const launchMs = Date.parse(LAUNCH_UTC);
+
+const dEl = document.getElementById("dd");
+const hEl = document.getElementById("hh");
+const mEl = document.getElementById("mm");
+const sEl = document.getElementById("ss");
+
+function pad(n){ return n < 10 ? "0" + n : "" + n; }
+
+function tick() {
+  const now = Date.now();
+  let diff = launchMs - now;
+
+  if (diff <= 0) {
+    // If launch time passed
+    dEl.textContent = "00";
+    hEl.textContent = "00";
+    mEl.textContent = "00";
+    sEl.textContent = "00";
+    const status = document.getElementById("countdown-status");
+    if (status) status.textContent = "We’re live.";
     clearInterval(timer);
-    const c = document.querySelector("#countdown");
-    c.innerHTML = "<div class='live'>🚀 Launch is Live!</div>";
     return;
   }
 
-  const d = Math.floor(dist / (1000 * 60 * 60 * 24));
-  const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-  const s = Math.floor((dist % (1000 * 60)) / 1000);
+  const sec = Math.floor(diff / 1000);
+  const days = Math.floor(sec / 86400);
+  const hours = Math.floor((sec % 86400) / 3600);
+  const mins = Math.floor((sec % 3600) / 60);
+  const secs = sec % 60;
 
-  els.d.textContent = d;
-  els.h.textContent = h.toString().padStart(2,"0");
-  els.m.textContent = m.toString().padStart(2,"0");
-  els.s.textContent = s.toString().padStart(2,"0");
-};
+  dEl.textContent = pad(days);
+  hEl.textContent = pad(hours);
+  mEl.textContent = pad(mins);
+  sEl.textContent = pad(secs);
+}
+
 const timer = setInterval(tick, 1000);
-tick();
-
-// ===== Reveal on scroll (countdown + buttons) =====
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
-  });
-},{threshold: 0.15});
-
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+tick(); // initial paint
