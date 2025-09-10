@@ -35,31 +35,31 @@
 <!-- ===== Countdown to Launch (self-contained) ===== -->
 <section id="countdown" class="card">
   <h2>Countdown to Launch</h2>
-  <p class="launch-time">
-  Going live on Wed, 17 Sept 2025 · 13:00 GMT (9 AM EST / 6 AM PST)
-</p>
+  <p class="subtitle">
+    Going live on <strong>Wed, 17 Sept 2025 · 13:00 GMT</strong> (9 AM EST / 6 AM PST)
+  </p>
 
-  <!-- Timer grid -->
-  <div class="timer-grid">
-    <div class="timer-box">
-      <div class="num" data-timer="days">00</div>
-      <div class="label">DAYS</div>
+  <div class="countdown" role="timer" aria-live="polite">
+    <div class="countdown-item">
+      <div id="days">00</div>
+      <span>DAYS</span>
     </div>
-    <div class="timer-box">
-      <div class="num" data-timer="hours">00</div>
-      <div class="label">HOURS</div>
+    <div class="countdown-item">
+      <div id="hours">00</div>
+      <span>HOURS</span>
     </div>
-    <div class="timer-box">
-      <div class="num" data-timer="minutes">00</div>
-      <div class="label">MINUTES</div>
+    <div class="countdown-item">
+      <div id="minutes">00</div>
+      <span>MINUTES</span>
     </div>
-    <div class="timer-box">
-      <div class="num" data-timer="seconds">00</div>
-      <div class="label">SECONDS</div>
+    <div class="countdown-item">
+      <div id="seconds">00</div>
+      <span>SECONDS</span>
     </div>
   </div>
 
-  <p class="muted">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+  <p class="tiny-note">⏰ Timer is locked to GMT so everyone sees the same countdown.</p>
+</section>
 
   <!-- Tiny debug line (you can delete later) -->
   <p id="debug-utc" class="muted" style="opacity:.6;font-size:.9em"></p>
